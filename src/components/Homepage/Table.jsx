@@ -11,20 +11,21 @@ const Table = () => {
   const { setTitle, setDescription, setDetails, setDueDate } = useTaskStore();
   const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  console.log(tasks);
 
+  const getData = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/all`);
+
+      setTasks(response.data.data);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   useEffect(() => {
-    const getData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/all`);
-
-        setTasks(response.data.data);
-      } catch (error) {
-        console.error("Error fetching tasks:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     getData();
   }, []);
 
@@ -35,6 +36,26 @@ const Table = () => {
     setDueDate(date);
     navigate(`/edit/${taskId}`);
   };
+
+  const handelDeleteTask = async (taskId) => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/dropTask/${taskId}`
+      );
+      console.log(response);
+      getData();
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
+
+  const handelViewComplete = ( title, des, about, date)=>{
+    setTitle(title);
+    setDescription(des);
+    setDetails(about);
+    setDueDate(date);
+    navigate(`/ViewComplete`);
+  }
 
   return (
     <div>
@@ -60,17 +81,25 @@ const Table = () => {
                         task.title,
                         task.description,
                         task.details,
-                        task.dueDate,
+                        task.dueDate
                       )
                     }
                   >
                     <BiMessageSquareEdit size={21} />
                   </button>
                   <button className="btn btn-accent">
-                    <RiDeleteBin5Line size={21} />
+                    <RiDeleteBin5Line
+                      size={21}
+                      onClick={() => handelDeleteTask(task._id)}
+                    />
                   </button>
                   <button className="btn btn-accent">
-                    <MdOpenInNew size={21} />
+                    <MdOpenInNew size={21} 
+                     onClick={() => handelViewComplete(
+                      task.title,
+                      task.description,
+                      task.details,
+                      task.dueDate)}/>
                   </button>
                 </div>
               </div>

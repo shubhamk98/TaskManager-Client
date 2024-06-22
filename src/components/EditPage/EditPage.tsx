@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import DatePickerComponent from "./DatePicker";
 import useTaskStore from "../../Context/FormContext";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const EditPage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   const {
     title,
@@ -21,20 +22,45 @@ const EditPage = () => {
 
   const handelSaveBtn = async () => {
     const data = {
+      taskId: id,
       title: title,
       description: description,
       details: details,
-      dueDate: dueDate.toISOString(),
+      dueDate: dueDate instanceof Date ? dueDate.toISOString() : dueDate,
     };
-    console.log(data);
-    
+
     resetTask();
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/newTask`,data);
-      navigate('/');
+      const response = await axios.patch(
+        `${import.meta.env.VITE_API_URL}/editTask`,
+        data
+      );
+      navigate("/");
     } catch (error) {
       console.error("Error editing task:", error);
-      console.log('Error response:', error.response);
+      console.log("Error response:", error.response);
+    }
+  };
+
+  const handelAddNewTask = async () => {
+    const data = {
+      taskId: id,
+      title: title,
+      description: description,
+      details: details,
+      dueDate: dueDate instanceof Date ? dueDate.toISOString() : dueDate,
+    };
+
+    resetTask();
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/newTask`,
+        data
+      );
+      navigate("/");
+    } catch (error) {
+      console.error("Error editing task:", error);
+      console.log("Error response:", error.response);
     }
   };
 
@@ -64,9 +90,15 @@ const EditPage = () => {
           onChange={(e) => setDetails(e.target.value)}
         ></textarea>
       </div>
-      <button className="btn btn-accent my-4" onClick={handelSaveBtn}>
-        Save
-      </button>
+      {id ? (
+        <button className="btn btn-accent my-4" onClick={handelSaveBtn}>
+          Save
+        </button>
+      ) : (
+        <button className="btn btn-accent my-4" onClick={handelAddNewTask}>
+          Add
+        </button>
+      )}
     </div>
   );
 };
