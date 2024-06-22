@@ -5,6 +5,7 @@ import { BiMessageSquareEdit } from "react-icons/bi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { MdOpenInNew } from "react-icons/md";
 import useTaskStore from "../../Context/FormContext";
+import toast from "react-hot-toast";
 
 const Table = () => {
   const navigate = useNavigate();
@@ -43,19 +44,21 @@ const Table = () => {
         `${import.meta.env.VITE_API_URL}/dropTask/${taskId}`
       );
       console.log(response);
+      toast.success("Task has been removed!");
       getData();
     } catch (error) {
       console.error("Error fetching tasks:", error);
+      toast.error("Something went Wrong");
     }
   };
 
-  const handelViewComplete = ( title, des, about, date)=>{
+  const handelViewComplete = (title, des, about, date) => {
     setTitle(title);
     setDescription(des);
     setDetails(about);
     setDueDate(date);
     navigate(`/ViewComplete`);
-  }
+  };
 
   return (
     <div>
@@ -72,12 +75,31 @@ const Table = () => {
                   {task.dueDate.split("T")[0]}
                 </div>
                 <p className="mb-4">{task.description}</p>
-                <div className="flex justify-end gap-4">
+                <div
+                  className="flex justify-end gap-4"
+                  onClick={() =>
+                    handleEditBtn(
+                      task._id,
+                      task.title,
+                      task.description,
+                      task.details,
+                      task.dueDate
+                    )
+                  }
+                >
+                  <button className="btn btn-info mr-2">
+                    <BiMessageSquareEdit size={21} />
+                  </button>
                   <button
-                    className="btn btn-accent mr-2"
+                    className="btn btn-error"
+                    onClick={() => handelDeleteTask(task._id)}
+                  >
+                    <RiDeleteBin5Line size={21} />
+                  </button>
+                  <button
+                    className="btn btn-success"
                     onClick={() =>
-                      handleEditBtn(
-                        task._id,
+                      handelViewComplete(
                         task.title,
                         task.description,
                         task.details,
@@ -85,21 +107,7 @@ const Table = () => {
                       )
                     }
                   >
-                    <BiMessageSquareEdit size={21} />
-                  </button>
-                  <button className="btn btn-accent">
-                    <RiDeleteBin5Line
-                      size={21}
-                      onClick={() => handelDeleteTask(task._id)}
-                    />
-                  </button>
-                  <button className="btn btn-accent">
-                    <MdOpenInNew size={21} 
-                     onClick={() => handelViewComplete(
-                      task.title,
-                      task.description,
-                      task.details,
-                      task.dueDate)}/>
+                    <MdOpenInNew size={21} />
                   </button>
                 </div>
               </div>

@@ -3,6 +3,7 @@ import DatePickerComponent from "./DatePicker";
 import useTaskStore from "../../Context/FormContext";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const EditPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,10 +36,13 @@ const EditPage = () => {
         `${import.meta.env.VITE_API_URL}/editTask`,
         data
       );
+      toast.success('Edit Success');
       navigate("/");
     } catch (error) {
       console.error("Error editing task:", error);
       console.log("Error response:", error.response);
+      toast.error('Something went Wrong');
+
     }
   };
 
@@ -57,10 +61,12 @@ const EditPage = () => {
         `${import.meta.env.VITE_API_URL}/newTask`,
         data
       );
+      toast.success('New task Added!!');
       navigate("/");
     } catch (error) {
       console.error("Error editing task:", error);
       console.log("Error response:", error.response);
+      toast.error('Something went Wrong');
     }
   };
 
