@@ -72,7 +72,12 @@ const EditPage = () => {
 
   return (
     <div className="mx-2 md:mx-10">
+    {
+      id ?
       <h1 className="text-2xl font-semibold my-6">Edit Task</h1>
+      :
+      <h1 className="text-2xl font-semibold my-6">Create New Task</h1>
+    }
       <div className="flex flex-col gap-4 ">
         <textarea
           placeholder="Title"
