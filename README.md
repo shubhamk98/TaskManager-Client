@@ -1,8 +1,55 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+## MERN Stack Project: Local Development Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project is a MERN (MongoDB, Express.js, React.js, Node.js) stack application with a deployed version available at: [https://task-manager-seven-theta.vercel.app/](https://task-manager-seven-theta.vercel.app/)
+
+## Prerequisites
+
+Before starting, ensure you have the following installed on your system:
+
+- Node.js and npm (or yarn). You can download them from the official website: [https://nodejs.org/](https://nodejs.org/)
+- A code editor of your choice (e.g., Visual Studio Code, Sublime Text)
+
+## Instructions
+
+### Clone the Repository
+
+1. Open your terminal and navigate to your desired project directory.
+
+2. Clone this repository using the following command:
+   ```bash
+   mkdir client
+   cd client
+   git clone https://github.com/shubhamk98/TaskManager-Client
+   npm install
+   npm run dev
+   ```
+
+      ```bash
+   mkdir server
+   cd server
+   git https://github.com/shubhamk98/Server-TM
+   npm install
+   npm start
+   ```
+
+
+
+### Set Up Environment Variables
+
+1. Create a `.env` file in the project root directory.
+
+2. Define the necessary environment variables. This project likely utilizes environment variables to store sensitive information like database credentials. Refer to the project code or any additional documentation for specific variables you need to set.
+
+   Example `.env` file:
+   ```
+   PORT=3000
+   MONGO_URI=mongodb://localhost:27017/mern-task-manager
+   ```
+
+  
+
+
+Your MERN stack application should now be running locally. Open your web browser and navigate to [http://localhost:5173](http://localhost:5173) to view it.
+
