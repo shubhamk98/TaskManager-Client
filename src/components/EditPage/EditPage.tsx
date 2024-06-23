@@ -88,7 +88,7 @@ const EditPage = () => {
         <DatePickerComponent />
         <textarea
           placeholder="Descrption"
-          className="textarea textarea-bordered textarea-base w-full max-w-lg"
+          className="textarea textarea-bordered textarea-base w-full max-w-lg min-h-36"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         ></textarea>
@@ -96,7 +96,7 @@ const EditPage = () => {
         <textarea
           placeholder="About"
           disabled={false}
-          className="textarea textarea-bordered textarea-base w-full max-w-lg"
+          className="textarea textarea-bordered textarea-base w-full max-w-lg min-h-56"
           value={details}
           onChange={(e) => setDetails(e.target.value)}
         ></textarea>
