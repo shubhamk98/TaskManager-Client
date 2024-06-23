@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -5,14 +6,21 @@ import { BiMessageSquareEdit } from "react-icons/bi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { MdOpenInNew } from "react-icons/md";
 import useTaskStore from "../../Context/FormContext";
-import toast from "react-hot-toast";
+import Modal from "../Modal";
 
 const Table = () => {
   const navigate = useNavigate();
-  const { setTitle, setDescription, setDetails, setDueDate } = useTaskStore();
+  const {
+    setTitle,
+    setDescription,
+    setDetails,
+    setDueDate,
+    openModal,
+    setTaskId,
+    isModalOpen,
+  } = useTaskStore();
   const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  console.log(tasks);
 
   const getData = async () => {
     try {
@@ -38,26 +46,17 @@ const Table = () => {
     navigate(`/edit/${taskId}`);
   };
 
-  const handelDeleteTask = async (taskId) => {
-    try {
-      const response = await axios.delete(
-        `${import.meta.env.VITE_API_URL}/dropTask/${taskId}`
-      );
-      console.log(response);
-      toast.success("Task has been removed!");
-      getData();
-    } catch (error) {
-      console.error("Error fetching tasks:", error);
-      toast.error("Something went Wrong");
-    }
-  };
-
   const handelViewComplete = (title, des, about, date) => {
     setTitle(title);
     setDescription(des);
     setDetails(about);
     setDueDate(date);
     navigate(`/ViewComplete`);
+  };
+
+  const handleOpenModal = (taskId) => {
+    setTaskId(taskId);
+    openModal();
   };
 
   return (
@@ -75,25 +74,22 @@ const Table = () => {
                   {task.dueDate.split("T")[0]}
                 </div>
                 <p className="mb-4">{task.description}</p>
-                <div
-                  className="flex justify-end gap-4"
-                  onClick={() =>
-                    handleEditBtn(
-                      task._id,
-                      task.title,
-                      task.description,
-                      task.details,
-                      task.dueDate
-                    )
-                  }
-                >
-                  <button className="btn btn-info mr-2">
+                <div className="flex justify-end gap-4">
+                  <button
+                    className="btn btn-info mr-2"
+                    onClick={() =>
+                      handleEditBtn(
+                        task._id,
+                        task.title,
+                        task.description,
+                        task.details,
+                        task.dueDate
+                      )
+                    }
+                  >
                     <BiMessageSquareEdit size={21} />
                   </button>
-                  <button
-                    className="btn btn-error"
-                    onClick={() => handelDeleteTask(task._id)}
-                  >
+                  <button className="btn btn-error" onClick={()=>handleOpenModal(task._id)}>
                     <RiDeleteBin5Line size={21} />
                   </button>
                   <button
@@ -115,7 +111,7 @@ const Table = () => {
           ))}
         </div>
       ) : (
-        <div className="flex flex-row gap-6 mt-12">
+        <div className="flex flex-col md:flex-row gap-6 mt-12">
           <div className="flex flex-col gap-4 w-full lg:w-[405px]">
             <div className="skeleton h-80 w-full"></div>
           </div>
@@ -127,6 +123,7 @@ const Table = () => {
           </div>
         </div>
       )}
+      {isModalOpen && <Modal />}
     </div>
   );
 };

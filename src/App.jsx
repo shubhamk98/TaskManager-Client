@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import EditPage from "./components/EditPage/EditPage";
 import ViewTask from "./components/ViewTask";
 import { Toaster } from "react-hot-toast";
+import Modal from "./components/Modal";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/edit/:id" element={<EditPage />} />
         <Route path="/newTask" element={<EditPage />} />
         <Route path="/ViewComplete" element={<ViewTask />} />
+        <Route path="/modal" element={<Modal/>} />
       </Routes>
     </Router>
   );
