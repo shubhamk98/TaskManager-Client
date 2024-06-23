@@ -115,7 +115,17 @@ const Table = () => {
           ))}
         </div>
       ) : (
-        <p>Loading...</p>
+        <div className="flex flex-row gap-6 mt-12">
+          <div className="flex flex-col gap-4 w-full lg:w-[405px]">
+            <div className="skeleton h-80 w-full"></div>
+          </div>
+          <div className="flex flex-col gap-4 w-full lg:w-[405px]">
+            <div className="skeleton h-80 w-full"></div>
+          </div>
+          <div className="flex flex-col gap-4 w-full lg:w-[405px]">
+            <div className="skeleton h-80 w-full"></div>
+          </div>
+        </div>
       )}
     </div>
   );
